@@ -151,5 +151,27 @@ class SubscriberController extends Controller
         ]);
     }
 
-    
+    public function removeFromNewsletter(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'subscriber_id' => 'required|exists:subscribers,id',
+            'newsletter_id' => 'required|exists:newsletters,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $newsletter = Newsletter::where('id', $request->newsletter_id)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+        
+        $subscriber = Subscriber::findOrFail($request->subscriber_id);
+        
+        $subscriber->newsletters()->detach($newsletter->id);
+
+        return response()->json([
+            'message' => 'Subscriber removed from newsletter successfully'
+        ]);
+    }
 }
