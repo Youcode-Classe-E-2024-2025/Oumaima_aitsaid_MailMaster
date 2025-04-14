@@ -121,7 +121,35 @@ class SubscriberController extends Controller
         ]);
     }
 
-    
+    public function addToNewsletter(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'subscriber_id' => 'required|exists:subscribers,id',
+            'newsletter_id' => 'required|exists:newsletters,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $newsletter = Newsletter::where('id', $request->newsletter_id)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+        
+        $subscriber = Subscriber::findOrFail($request->subscriber_id);
+        
+        // Attach if not already attached
+        if (!$subscriber->newsletters->contains($newsletter->id)) {
+            $subscriber->newsletters()->attach($newsletter->id);
+            return response()->json([
+                'message' => 'Subscriber added to newsletter successfully'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Subscriber is already in this newsletter'
+        ]);
+    }
 
     
 }
