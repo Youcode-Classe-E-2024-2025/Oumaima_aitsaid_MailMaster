@@ -23,7 +23,15 @@ class CampaignFactory extends Factory
         ];
     }
 
-   
+    public function scheduled()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'scheduled',
+                'scheduled_at' => $this->faker->dateTimeBetween('now', '+30 days'),
+            ];
+        });
+    }
 
     
 }
