@@ -147,5 +147,17 @@ class CampaignController extends Controller
         ]);
     }
 
- 
+    public function preview(Request $request, $id)
+    {
+        $newsletterIds = Newsletter::where('user_id', $request->user()->id)
+            ->pluck('id');
+        
+        $campaign = Campaign::whereIn('newsletter_id', $newsletterIds)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        return response()->json([
+            'preview' => $campaign->content
+        ]);
+    }
 }
