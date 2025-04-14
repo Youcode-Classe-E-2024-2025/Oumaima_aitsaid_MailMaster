@@ -16,9 +16,14 @@ class CampaignStat extends Model
         'click_count',
     ];
 
-  
+    protected $casts = [
+        'opened_at' => 'datetime',
+    ];
 
-   
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class);
+    }
 
    
 }
