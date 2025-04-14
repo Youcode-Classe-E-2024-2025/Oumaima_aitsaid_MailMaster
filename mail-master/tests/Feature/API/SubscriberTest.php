@@ -30,7 +30,36 @@ class SubscriberTest extends TestCase
         ]);
     }
 
-    
+    /** @test */
+    public function user_can_create_subscriber()
+    {
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->postJson('/api/subscribers', [
+            'email' => 'subscriber@example.com',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'newsletter_ids' => [$this->newsletter->id],
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'message',
+                'subscriber' => [
+                    'id', 'email', 'first_name', 'last_name', 'status', 'created_at', 'updated_at'
+                ]
+            ]);
+
+        $this->assertDatabaseHas('subscribers', [
+            'email' => 'subscriber@example.com',
+            'first_name' => 'John',
+            'last_name' => 'Doe',
+            'status' => 'active',
+        ]);
+
+        $subscriber = Subscriber::where('email', 'subscriber@example.com')->first();
+        $this->assertTrue($subscriber->newsletters->contains($this->newsletter->id));
+    }
 
    
 
