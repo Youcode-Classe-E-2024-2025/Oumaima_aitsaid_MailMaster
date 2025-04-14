@@ -29,5 +29,8 @@ class Campaign extends Model
         return $this->belongsTo(Newsletter::class);
     }
 
-   
+    public function stats()
+    {
+        return $this->hasMany(CampaignStat::class);
+    }
 }
