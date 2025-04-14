@@ -2,22 +2,28 @@
 
 namespace Database\Factories;
 
+use App\Models\Campaign;
+use App\Models\Newsletter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Campaign>
- */
 class CampaignFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Campaign::class;
+
+    public function definition()
     {
         return [
-            //
+            'newsletter_id' => Newsletter::factory(),
+            'name' => $this->faker->words(4, true),
+            'subject' => $this->faker->sentence(),
+            'content' => '<h1>' . $this->faker->sentence() . '</h1><p>' . $this->faker->paragraph(3) . '</p>',
+            'status' => 'draft',
+            'scheduled_at' => null,
+            'sent_at' => null,
         ];
     }
+
+   
+
+    
 }
