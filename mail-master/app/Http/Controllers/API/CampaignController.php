@@ -63,6 +63,19 @@ class CampaignController extends Controller
         ], 201);
     }
 
+    public function show(Request $request, $id)
+    {
+        $newsletterIds = Newsletter::where('user_id', $request->user()->id)
+            ->pluck('id');
+        
+        $campaign = Campaign::with('newsletter')
+            ->whereIn('newsletter_id', $newsletterIds)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        return response()->json($campaign);
+    }
+
     
 
   
