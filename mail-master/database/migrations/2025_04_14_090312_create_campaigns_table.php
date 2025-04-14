@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('campaigns', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('newsletter_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->string('subject');
+            $table->text('content');
+            $table->enum('status', ['draft', 'scheduled', 'sent'])->default('draft');
+            $table->timestamp('scheduled_at')->nullable();
+            $table->timestamp('sent_at')->nullable();
             $table->timestamps();
         });
     }
