@@ -76,7 +76,54 @@ class CampaignController extends Controller
         return response()->json($campaign);
     }
 
-    
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'newsletter_id' => 'nullable|exists:newsletters,id',
+            'name' => 'required|string|max:255',
+            'subject' => 'required|string|max:255',
+            'content' => 'required|string',
+            'status' => 'nullable|in:draft,scheduled,sent',
+            'scheduled_at' => 'nullable|date|after:now',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $newsletterIds = Newsletter::where('user_id', $request->user()->id)
+            ->pluck('id');
+        
+        $campaign = Campaign::whereIn('newsletter_id', $newsletterIds)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        if ($campaign->status === 'sent') {
+            return response()->json([
+                'message' => 'Cannot update a campaign that has already been sent'
+            ], 403);
+        }
+
+        if ($request->has('newsletter_id')) {
+            $newsletter = Newsletter::where('id', $request->newsletter_id)
+                ->where('user_id', $request->user()->id)
+                ->firstOrFail();
+        }
+
+        $campaign->update([
+            'newsletter_id' => $request->newsletter_id ?? $campaign->newsletter_id,
+            'name' => $request->name,
+            'subject' => $request->subject,
+            'content' => $request->content,
+            'status' => $request->status ?? $campaign->status,
+            'scheduled_at' => $request->scheduled_at ?? $campaign->scheduled_at,
+        ]);
+
+        return response()->json([
+            'message' => 'Campaign updated successfully',
+            'campaign' => $campaign
+        ]);
+    }
 
   
 
