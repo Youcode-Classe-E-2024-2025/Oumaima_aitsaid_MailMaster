@@ -29,7 +29,39 @@ class CampaignController extends Controller
         return response()->json($campaigns);
     }
 
-    
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'newsletter_id' => 'required|exists:newsletters,id',
+            'name' => 'required|string|max:255',
+            'subject' => 'required|string|max:255',
+            'content' => 'required|string',
+            'status' => 'nullable|in:draft,scheduled,sent',
+            'scheduled_at' => 'nullable|date|after:now',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $newsletter = Newsletter::where('id', $request->newsletter_id)
+            ->where('user_id', $request->user()->id)
+            ->firstOrFail();
+
+        $campaign = Campaign::create([
+            'newsletter_id' => $request->newsletter_id,
+            'name' => $request->name,
+            'subject' => $request->subject,
+            'content' => $request->content,
+            'status' => $request->status ?? 'draft',
+            'scheduled_at' => $request->scheduled_at,
+        ]);
+
+        return response()->json([
+            'message' => 'Campaign created successfully',
+            'campaign' => $campaign
+        ], 201);
+    }
 
     
 
