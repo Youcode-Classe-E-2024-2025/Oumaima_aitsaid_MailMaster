@@ -84,7 +84,29 @@ class SubscriberTest extends TestCase
         ]);
     }
 
-   
+    /** @test */
+    public function user_can_remove_subscriber_from_newsletter()
+    {
+        $subscriber = Subscriber::factory()->create();
+        $subscriber->newsletters()->attach($this->newsletter->id);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->postJson('/api/subscribers/remove-from-newsletter', [
+            'subscriber_id' => $subscriber->id,
+            'newsletter_id' => $this->newsletter->id,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Subscriber removed from newsletter successfully'
+            ]);
+
+        $this->assertDatabaseMissing('newsletter_subscriber', [
+            'newsletter_id' => $this->newsletter->id,
+            'subscriber_id' => $subscriber->id,
+        ]);
+    }
 
  
 
