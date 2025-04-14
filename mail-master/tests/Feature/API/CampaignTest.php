@@ -113,5 +113,19 @@ class CampaignTest extends TestCase
             ]);
     }
 
-  
+    /** @test */
+    public function user_can_preview_campaign()
+    {
+        $campaign = Campaign::factory()->create([
+            'newsletter_id' => $this->newsletter->id,
+            'content' => '<p>Test content</p>',
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->getJson("/api/campaigns/{$campaign->id}/preview");
+
+        $response->assertStatus(200)
+            ->assertJsonStructure(['preview']);
+    }
 }
