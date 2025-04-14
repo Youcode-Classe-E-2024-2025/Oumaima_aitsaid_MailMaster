@@ -25,5 +25,8 @@ class CampaignStat extends Model
         return $this->belongsTo(Campaign::class);
     }
 
-   
+    public function subscriber()
+    {
+        return $this->belongsTo(Subscriber::class);
+    }
 }
