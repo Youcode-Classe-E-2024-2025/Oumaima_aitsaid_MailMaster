@@ -125,7 +125,27 @@ class CampaignController extends Controller
         ]);
     }
 
-  
+    public function destroy(Request $request, $id)
+    {
+        $newsletterIds = Newsletter::where('user_id', $request->user()->id)
+            ->pluck('id');
+        
+        $campaign = Campaign::whereIn('newsletter_id', $newsletterIds)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        if ($campaign->status === 'sent') {
+            return response()->json([
+                'message' => 'Cannot delete a campaign that has already been sent'
+            ], 403);
+        }
+
+        $campaign->delete();
+
+        return response()->json([
+            'message' => 'Campaign deleted successfully'
+        ]);
+    }
 
  
 }
