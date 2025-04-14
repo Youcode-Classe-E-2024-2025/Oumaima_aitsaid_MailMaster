@@ -13,6 +13,7 @@ class CampaignStat extends Model
         'campaign_id',
         'subscriber_id',
         'opened_at',
+        'tracking_token',
         'click_count',
     ];
 
