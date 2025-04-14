@@ -37,7 +37,43 @@ class CampaignManagementController extends Controller
         return response()->json($result, $result['success'] ? 200 : 400);
     }
 
-   
+    /**
+     * Schedule a campaign for future sending.
+     */
+    public function scheduleCampaign(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'scheduled_at' => 'required|date|after:now',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        // Get newsletters belonging to the user
+        $newsletterIds = Newsletter::where('user_id', $request->user()->id)
+            ->pluck('id');
+        
+        $campaign = Campaign::whereIn('newsletter_id', $newsletterIds)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        if ($campaign->status === 'sent') {
+            return response()->json([
+                'message' => 'Cannot schedule a campaign that has already been sent'
+            ], 400);
+        }
+
+        $campaign->update([
+            'status' => 'scheduled',
+            'scheduled_at' => $request->scheduled_at,
+        ]);
+
+        return response()->json([
+            'message' => 'Campaign scheduled successfully',
+            'campaign' => $campaign
+        ]);
+    }
 
    
 }
