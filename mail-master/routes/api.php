@@ -4,6 +4,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\NewsletterController;
 use App\Http\Controllers\API\SubscriberController;
 use App\Http\Controllers\API\CampaignController;
+use App\Http\Controllers\API\CampaignManagementController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,4 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Campaign routes
     Route::apiResource('campaigns', CampaignController::class);
     Route::get('/campaigns/{id}/preview', [CampaignController::class, 'preview']);
+    Route::post('/campaigns/{id}/send', [CampaignManagementController::class, 'sendCampaign']);
+    Route::post('/campaigns/{id}/schedule', [CampaignManagementController::class, 'scheduleCampaign']);
+    Route::get('/campaigns/{id}/stats', [CampaignManagementController::class, 'getCampaignStats']);
 });
