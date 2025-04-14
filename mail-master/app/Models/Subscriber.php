@@ -16,5 +16,10 @@ class Subscriber extends Model
         'status',
     ];
 
-     
+    public function newsletters()
+    {
+        return $this->belongsToMany(Newsletter::class);
+    }
+
+   
 }
