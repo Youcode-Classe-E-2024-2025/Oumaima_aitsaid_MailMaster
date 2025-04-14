@@ -104,6 +104,25 @@ class NewsletterTest extends TestCase
         ]);
     }
 
-   
+    /** @test */
+    public function user_can_delete_their_newsletter()
+    {
+        $newsletter = Newsletter::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->deleteJson("/api/newsletters/{$newsletter->id}");
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Newsletter deleted successfully'
+            ]);
+
+        $this->assertDatabaseMissing('newsletters', [
+            'id' => $newsletter->id
+        ]);
+    }
 
 }
