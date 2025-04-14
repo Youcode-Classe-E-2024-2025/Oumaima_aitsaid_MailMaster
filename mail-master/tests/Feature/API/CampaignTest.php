@@ -59,9 +59,59 @@ class CampaignTest extends TestCase
         ]);
     }
 
-    
+    /** @test */
+    public function user_can_schedule_campaign()
+    {
+        $campaign = Campaign::factory()->create([
+            'newsletter_id' => $this->newsletter->id,
+            'status' => 'draft',
+        ]);
 
-   
+        $scheduledAt = now()->addDay()->format('Y-m-d H:i:s');
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->postJson("/api/campaigns/{$campaign->id}/schedule", [
+            'scheduled_at' => $scheduledAt,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Campaign scheduled successfully',
+                'campaign' => [
+                    'id' => $campaign->id,
+                    'status' => 'scheduled',
+                ]
+            ]);
+
+        $this->assertDatabaseHas('campaigns', [
+            'id' => $campaign->id,
+            'status' => 'scheduled',
+        ]);
+    }
+
+    /** @test */
+    public function user_cannot_update_sent_campaign()
+    {
+        $campaign = Campaign::factory()->create([
+            'newsletter_id' => $this->newsletter->id,
+            'status' => 'sent',
+            'sent_at' => now(),
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->putJson("/api/campaigns/{$campaign->id}", [
+            'name' => 'Updated Name',
+            'subject' => 'Updated Subject',
+            'content' => 'Updated Content',
+        ]);
+
+        $response->assertStatus(403)
+            ->assertJson([
+                'message' => 'Cannot update a campaign that has already been sent'
+            ]);
+    }
 
   
 }
