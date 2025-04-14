@@ -65,7 +65,12 @@ class SubscriberController extends Controller
         ], 201);
     }
 
-   
+    public function show($id)
+    {
+        $subscriber = Subscriber::with('newsletters')->findOrFail($id);
+
+        return response()->json($subscriber);
+    }
 
     
 
