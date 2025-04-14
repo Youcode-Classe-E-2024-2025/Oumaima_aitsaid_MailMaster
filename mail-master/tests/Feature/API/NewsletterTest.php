@@ -125,4 +125,18 @@ class NewsletterTest extends TestCase
         ]);
     }
 
+    /** @test */
+    public function user_cannot_view_newsletters_of_other_users()
+    {
+        $otherUser = User::factory()->create();
+        $otherNewsletter = Newsletter::factory()->create([
+            'user_id' => $otherUser->id,
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->getJson("/api/newsletters/{$otherNewsletter->id}");
+
+        $response->assertStatus(404);
+    }
 }
