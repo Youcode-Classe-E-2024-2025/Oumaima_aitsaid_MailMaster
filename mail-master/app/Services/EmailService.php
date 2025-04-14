@@ -100,7 +100,45 @@ class EmailService
         ];
     }
 
-    
+    /**
+     * Personalize content with subscriber data and add tracking pixel.
+     *
+     * @param string $content
+     * @param Subscriber $subscriber
+     * @param string $trackingPixel
+     * @return string
+     */
+    protected function personalizeContent($content, $subscriber, $trackingPixel)
+    {
+        // Replace placeholders with subscriber data
+        $personalized = str_replace(
+            [
+                '{{first_name}}', 
+                '{{last_name}}', 
+                '{{email}}',
+                '{{full_name}}'
+            ],
+            [
+                $subscriber->first_name ?? '',
+                $subscriber->last_name ?? '',
+                $subscriber->email,
+                trim(($subscriber->first_name ?? '') . ' ' . ($subscriber->last_name ?? ''))
+            ],
+            $content
+        );
+        
+        // Add invisible tracking pixel at the end of the email
+        $trackingHtml = '<img src="' . $trackingPixel . '" alt="" width="1" height="1" style="display:none;" />';
+        
+        // Append tracking pixel before the closing body tag or at the end if no body tag
+        if (strpos($personalized, '</body>') !== false) {
+            $personalized = str_replace('</body>', $trackingHtml . '</body>', $personalized);
+        } else {
+            $personalized .= $trackingHtml;
+        }
+        
+        return $personalized;
+    }
 
    
 }
