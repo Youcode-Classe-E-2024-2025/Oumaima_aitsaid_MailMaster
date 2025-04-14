@@ -24,6 +24,10 @@ class Campaign extends Model
         'sent_at' => 'datetime',
     ];
 
-    
+    public function newsletter()
+    {
+        return $this->belongsTo(Newsletter::class);
+    }
+
    
 }
