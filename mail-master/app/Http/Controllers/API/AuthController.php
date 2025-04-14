@@ -11,6 +11,28 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
+     /**
+     * Register a new user
+     *
+     * @bodyParam name string required The name of the user. Example: John Doe
+     * @bodyParam email string required The email of the user. Example: user@example.com
+     * @bodyParam password string required The password of the user. Example: password123
+     * @bodyParam password_confirmation string required Password confirmation. Example: password123
+     *
+     * @response 201 {
+     *   "message": "User registered successfully",
+     *   "access_token": "1|example_token_hash",
+     *   "token_type": "Bearer",
+     *   "user": {
+     *     "id": 1,
+     *     "name": "John Doe",
+     *     "email": "user@example.com",
+     *     "email_verified_at": null,
+     *     "created_at": "2023-04-07T12:00:00.000000Z",
+     *     "updated_at": "2023-04-07T12:00:00.000000Z"
+     *   }
+     * }
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [

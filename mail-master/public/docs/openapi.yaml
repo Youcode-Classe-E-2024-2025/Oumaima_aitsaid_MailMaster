@@ -1,0 +1,691 @@
+openapi: 3.0.3
+info:
+  title: 'MailMaster API Documentation'
+  description: 'API documentation for the MailMaster newsletter management system'
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost'
+tags:
+  -
+    name: Endpoints
+    description: ''
+paths:
+  /api/register:
+    post:
+      summary: 'Register a new user'
+      operationId: registerANewUser
+      description: ''
+      parameters: []
+      responses:
+        201:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: 'User registered successfully'
+                  access_token: 1|example_token_hash
+                  token_type: Bearer
+                  user:
+                    id: 1
+                    name: 'John Doe'
+                    email: user@example.com
+                    email_verified_at: null
+                    created_at: '2023-04-07T12:00:00.000000Z'
+                    updated_at: '2023-04-07T12:00:00.000000Z'
+                properties:
+                  message:
+                    type: string
+                    example: 'User registered successfully'
+                  access_token:
+                    type: string
+                    example: 1|example_token_hash
+                  token_type:
+                    type: string
+                    example: Bearer
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      name:
+                        type: string
+                        example: 'John Doe'
+                      email:
+                        type: string
+                        example: user@example.com
+                      email_verified_at:
+                        type: string
+                        example: null
+                      created_at:
+                        type: string
+                        example: '2023-04-07T12:00:00.000000Z'
+                      updated_at:
+                        type: string
+                        example: '2023-04-07T12:00:00.000000Z'
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'The name of the user.'
+                  example: 'John Doe'
+                  nullable: false
+                email:
+                  type: string
+                  description: 'The email of the user.'
+                  example: user@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'The password of the user.'
+                  example: password123
+                  nullable: false
+                password_confirmation:
+                  type: string
+                  description: 'Password confirmation.'
+                  example: password123
+                  nullable: false
+              required:
+                - name
+                - email
+                - password
+                - password_confirmation
+      security: []
+  /api/login:
+    post:
+      summary: ''
+      operationId: postApiLogin
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: gbailey@example.net
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: '|]|{+-'
+                  nullable: false
+              required:
+                - email
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: ''
+      operationId: postApiLogout
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+  /api/user:
+    get:
+      summary: ''
+      operationId: getApiUser
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  /api/newsletters:
+    get:
+      summary: ''
+      operationId: getApiNewsletters
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiNewsletters
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+              required:
+                - name
+      security: []
+  '/api/newsletters/{id}':
+    get:
+      summary: ''
+      operationId: getApiNewslettersId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiNewslettersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Eius et animi quos velit et.'
+                  nullable: true
+              required:
+                - name
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiNewslettersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the newsletter.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/subscribers:
+    get:
+      summary: ''
+      operationId: getApiSubscribers
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiSubscribers
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: gbailey@example.net
+                  nullable: false
+                first_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: m
+                  nullable: true
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: i
+                  nullable: true
+                newsletter_ids:
+                  type: array
+                  description: 'The <code>id</code> of an existing record in the newsletters table.'
+                  example: null
+                  items:
+                    type: string
+              required:
+                - email
+      security: []
+  '/api/subscribers/{id}':
+    get:
+      summary: ''
+      operationId: getApiSubscribersId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiSubscribersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: ''
+                  example: null
+                  nullable: false
+                first_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: true
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                  nullable: true
+                status:
+                  type: string
+                  description: ''
+                  example: unsubscribed
+                  nullable: true
+                  enum:
+                    - active
+                    - unsubscribed
+                newsletter_ids:
+                  type: array
+                  description: 'The <code>id</code> of an existing record in the newsletters table.'
+                  example: null
+                  items:
+                    type: string
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiSubscribersId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the subscriber.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  /api/subscribers/add-to-newsletter:
+    post:
+      summary: ''
+      operationId: postApiSubscribersAddToNewsletter
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subscriber_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the subscribers table.'
+                  example: architecto
+                  nullable: false
+                newsletter_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the newsletters table.'
+                  example: architecto
+                  nullable: false
+              required:
+                - subscriber_id
+                - newsletter_id
+      security: []
+  /api/subscribers/remove-from-newsletter:
+    post:
+      summary: ''
+      operationId: postApiSubscribersRemoveFromNewsletter
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                subscriber_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the subscribers table.'
+                  example: architecto
+                  nullable: false
+                newsletter_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the newsletters table.'
+                  example: architecto
+                  nullable: false
+              required:
+                - subscriber_id
+                - newsletter_id
+      security: []
+  /api/campaigns:
+    get:
+      summary: ''
+      operationId: getApiCampaigns
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: ''
+      operationId: postApiCampaigns
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newsletter_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the newsletters table.'
+                  example: architecto
+                  nullable: false
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                  nullable: false
+                subject:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: g
+                  nullable: false
+                content:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                status:
+                  type: string
+                  description: ''
+                  example: sent
+                  nullable: true
+                  enum:
+                    - draft
+                    - scheduled
+                    - sent
+                scheduled_at:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after <code>now</code>.'
+                  example: '2051-05-09'
+                  nullable: true
+              required:
+                - newsletter_id
+                - name
+                - subject
+                - content
+      security: []
+  '/api/campaigns/{id}':
+    get:
+      summary: ''
+      operationId: getApiCampaignsId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: ''
+      operationId: putApiCampaignsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                newsletter_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the newsletters table.'
+                  example: null
+                  nullable: true
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: b
+                  nullable: false
+                subject:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: 'n'
+                  nullable: false
+                content:
+                  type: string
+                  description: ''
+                  example: architecto
+                  nullable: false
+                status:
+                  type: string
+                  description: ''
+                  example: draft
+                  nullable: true
+                  enum:
+                    - draft
+                    - scheduled
+                    - sent
+                scheduled_at:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after <code>now</code>.'
+                  example: '2051-05-09'
+                  nullable: true
+              required:
+                - name
+                - subject
+                - content
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiCampaignsId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the campaign.'
+        example: architecto
+        required: true
+        schema:
+          type: string
+  '/api/campaigns/{id}/preview':
+    get:
+      summary: ''
+      operationId: getApiCampaignsIdPreview
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the campaign.'
+        example: architecto
+        required: true
+        schema:
+          type: string
