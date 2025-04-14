@@ -76,5 +76,21 @@ class AuthTest extends TestCase
             ]);
     }
 
-    
+    /** @test */
+    public function user_can_logout()
+    {
+        $user = User::factory()->create();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->postJson('/api/logout');
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Logged out successfully'
+            ]);
+
+        $this->assertDatabaseCount('personal_access_tokens', 0);
+    }
 }
