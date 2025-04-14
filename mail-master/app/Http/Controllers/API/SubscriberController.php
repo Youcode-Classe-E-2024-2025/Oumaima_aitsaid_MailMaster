@@ -72,7 +72,44 @@ class SubscriberController extends Controller
         return response()->json($subscriber);
     }
 
-    
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:subscribers,email,' . $id,
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'status' => 'nullable|in:active,unsubscribed',
+            'newsletter_ids' => 'nullable|array',
+            'newsletter_ids.*' => 'exists:newsletters,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $subscriber = Subscriber::findOrFail($id);
+
+        $subscriber->update([
+            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'status' => $request->status ?? $subscriber->status,
+        ]);
+
+        // Update newsletter attachments if provided
+        if ($request->has('newsletter_ids')) {
+            $newsletters = Newsletter::whereIn('id', $request->newsletter_ids)
+                ->where('user_id', $request->user()->id)
+                ->get();
+            
+            $subscriber->newsletters()->sync($newsletters->pluck('id'));
+        }
+
+        return response()->json([
+            'message' => 'Subscriber updated successfully',
+            'subscriber' => $subscriber
+        ]);
+    }
 
   
     
