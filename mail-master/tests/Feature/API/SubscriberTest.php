@@ -147,5 +147,22 @@ class SubscriberTest extends TestCase
    ]);
 }
 
+/** @test */
+public function user_can_delete_subscriber()
+{
+   $subscriber = Subscriber::factory()->create();
 
+   $response = $this->withHeaders([
+       'Authorization' => 'Bearer ' . $this->token,
+   ])->deleteJson("/api/subscribers/{$subscriber->id}");
+
+   $response->assertStatus(200)
+       ->assertJson([
+           'message' => 'Subscriber deleted successfully'
+       ]);
+
+   $this->assertDatabaseMissing('subscribers', [
+       'id' => $subscriber->id
+   ]);
+}
 }
