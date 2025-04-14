@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('campaign_stats', function (Blueprint $table) {
-            //
+            $table->string('tracking_token')->nullable()->after('subscriber_id');
+            $table->index('tracking_token');
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('campaign_stats', function (Blueprint $table) {
-            //
+            $table->dropColumn('tracking_token');
         });
     }
 };
