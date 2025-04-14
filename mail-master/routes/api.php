@@ -3,7 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\NewsletterController;
 use App\Http\Controllers\API\SubscriberController;
-use App\Http\Controllers\API\
+use App\Http\Controllers\API\CampaignController;
 use Illuminate\Support\Facades\Route;
 
 /*
