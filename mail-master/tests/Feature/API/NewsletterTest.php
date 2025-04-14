@@ -71,7 +71,38 @@ class NewsletterTest extends TestCase
             ->assertJsonCount(3, 'data');
     }
 
-   
+    /** @test */
+    public function user_can_update_their_newsletter()
+    {
+        $newsletter = Newsletter::factory()->create([
+            'user_id' => $this->user->id,
+            'name' => 'Original Name',
+            'description' => 'Original Description',
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->putJson("/api/newsletters/{$newsletter->id}", [
+            'name' => 'Updated Name',
+            'description' => 'Updated Description',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Newsletter updated successfully',
+                'newsletter' => [
+                    'id' => $newsletter->id,
+                    'name' => 'Updated Name',
+                    'description' => 'Updated Description',
+                ]
+            ]);
+
+        $this->assertDatabaseHas('newsletters', [
+            'id' => $newsletter->id,
+            'name' => 'Updated Name',
+            'description' => 'Updated Description',
+        ]);
+    }
 
    
 
