@@ -21,5 +21,8 @@ class Subscriber extends Model
         return $this->belongsToMany(Newsletter::class);
     }
 
-   
+    public function campaignStats()
+    {
+        return $this->hasMany(CampaignStat::class);
+    }
 }
