@@ -30,7 +30,35 @@ class CampaignTest extends TestCase
         ]);
     }
 
-   
+    /** @test */
+    public function user_can_create_campaign()
+    {
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->postJson('/api/campaigns', [
+            'newsletter_id' => $this->newsletter->id,
+            'name' => 'Test Campaign',
+            'subject' => 'Test Subject',
+            'content' => '<p>Hello {{first_name}},</p><p>This is a test email.</p>',
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJsonStructure([
+                'message',
+                'campaign' => [
+                    'id', 'newsletter_id', 'name', 'subject', 'content', 'status',
+                    'created_at', 'updated_at'
+                ]
+            ]);
+
+        $this->assertDatabaseHas('campaigns', [
+            'newsletter_id' => $this->newsletter->id,
+            'name' => 'Test Campaign',
+            'subject' => 'Test Subject',
+            'status' => 'draft',
+        ]);
+    }
+
     
 
    
