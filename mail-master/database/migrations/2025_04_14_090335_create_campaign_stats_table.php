@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('campaign_stats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('campaign_id')->constrained()->onDelete('cascade');
+            $table->foreignId('subscriber_id')->constrained()->onDelete('cascade');
+            $table->timestamp('opened_at')->nullable();
+            $table->integer('click_count')->default(0);
             $table->timestamps();
         });
     }
