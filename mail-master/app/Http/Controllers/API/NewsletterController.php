@@ -78,5 +78,16 @@ class NewsletterController extends Controller
         ]);
     }
 
-  
+    public function destroy(Request $request, $id)
+    {
+        $newsletter = Newsletter::where('user_id', $request->user()->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $newsletter->delete();
+
+        return response()->json([
+            'message' => 'Newsletter deleted successfully'
+        ]);
+    }
 }
