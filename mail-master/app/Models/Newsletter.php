@@ -25,5 +25,8 @@ class Newsletter extends Model
         return $this->belongsToMany(Subscriber::class);
     }
 
-   
+    public function campaigns()
+    {
+        return $this->hasMany(Campaign::class);
+    }
 }
