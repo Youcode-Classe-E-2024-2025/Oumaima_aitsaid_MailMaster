@@ -111,7 +111,16 @@ class SubscriberController extends Controller
         ]);
     }
 
-  
+    public function destroy($id)
+    {
+        $subscriber = Subscriber::findOrFail($id);
+        $subscriber->delete();
+
+        return response()->json([
+            'message' => 'Subscriber deleted successfully'
+        ]);
+    }
+
     
 
     
