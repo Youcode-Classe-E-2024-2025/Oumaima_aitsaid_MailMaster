@@ -108,7 +108,44 @@ class SubscriberTest extends TestCase
         ]);
     }
 
- 
+    /** @test */
+    public function user_can_update_subscriber()
+    {
+        $subscriber = Subscriber::factory()->create([
+            'email' => 'original@example.com',
+            'first_name' => 'Original',
+            'last_name' => 'Name',
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->putJson("/api/subscribers/{$subscriber->id}", [
+            'email' => 'updated@example.com',
+            'first_name' => 'Updated',
+            'last_name' => 'Name',
+            'status' => 'active',
+        ]);
+
+       // Suite de la fonction test dans SubscriberTest.php
+       $response->assertStatus(200)
+       ->assertJson([
+           'message' => 'Subscriber updated successfully',
+           'subscriber' => [
+               'id' => $subscriber->id,
+               'email' => 'updated@example.com',
+               'first_name' => 'Updated',
+               'last_name' => 'Name',
+               'status' => 'active',
+           ]
+       ]);
+
+   $this->assertDatabaseHas('subscribers', [
+       'id' => $subscriber->id,
+       'email' => 'updated@example.com',
+       'first_name' => 'Updated',
+       'last_name' => 'Name',
+   ]);
+}
 
 
 }
