@@ -140,5 +140,26 @@ class EmailService
         return $personalized;
     }
 
-   
+    /**
+     * Mock sending an email (for development purposes).
+     * In production, you would use Laravel's Mail facade.
+     *
+     * @param string $to
+     * @param string $subject
+     * @param string $content
+     * @return void
+     */
+    protected function mockSendEmail($to, $subject, $content)
+    {
+        // In a real app, you would use:
+        /*
+        Mail::raw($content, function ($message) use ($to, $subject) {
+            $message->to($to)
+                    ->subject($subject);
+        });
+        */
+        
+        // For development, just log it
+        Log::info("Email would be sent to $to with subject: $subject");
+    }
 }
