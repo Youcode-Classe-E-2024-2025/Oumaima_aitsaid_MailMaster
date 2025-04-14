@@ -33,5 +33,14 @@ class CampaignFactory extends Factory
         });
     }
 
-    
+    public function sent()
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'status' => 'sent',
+                'scheduled_at' => $this->faker->dateTimeBetween('-30 days', 'now'),
+                'sent_at' => $this->faker->dateTimeBetween('-29 days', 'now'),
+            ];
+        });
+    }
 }
