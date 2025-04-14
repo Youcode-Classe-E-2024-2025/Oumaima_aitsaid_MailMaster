@@ -971,7 +971,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: sent
+        example: draft
         type: string
         enumValues:
           - draft
@@ -995,7 +995,7 @@ endpoints:
       name: 'n'
       subject: g
       content: architecto
-      status: sent
+      status: draft
       scheduled_at: '2051-05-09'
     fileParameters: []
     responses: []
@@ -1132,7 +1132,7 @@ endpoints:
         name: status
         description: ''
         required: false
-        example: draft
+        example: sent
         type: string
         enumValues:
           - draft
@@ -1155,7 +1155,7 @@ endpoints:
       name: b
       subject: 'n'
       content: architecto
-      status: draft
+      status: sent
       scheduled_at: '2051-05-09'
     fileParameters: []
     responses: []

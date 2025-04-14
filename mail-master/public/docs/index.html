@@ -66,6 +66,22 @@
                     <a href="#authenticating-requests">Authenticating requests</a>
                 </li>
                             </ul>
+                    <ul id="tocify-header-campaign-management" class="tocify-header">
+                <li class="tocify-item level-1" data-unique="campaign-management">
+                    <a href="#campaign-management">Campaign Management</a>
+                </li>
+                                    <ul id="tocify-subheader-campaign-management" class="tocify-subheader">
+                                                    <li class="tocify-item level-2" data-unique="campaign-management-POSTapi-campaigns--id--send">
+                                <a href="#campaign-management-POSTapi-campaigns--id--send">Send a campaign</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="campaign-management-POSTapi-campaigns--id--schedule">
+                                <a href="#campaign-management-POSTapi-campaigns--id--schedule">Schedule a campaign</a>
+                            </li>
+                                                                                <li class="tocify-item level-2" data-unique="campaign-management-GETapi-campaigns--id--stats">
+                                <a href="#campaign-management-GETapi-campaigns--id--stats">Get campaign statistics</a>
+                            </li>
+                                                                        </ul>
+                            </ul>
                     <ul id="tocify-header-endpoints" class="tocify-header">
                 <li class="tocify-item level-1" data-unique="endpoints">
                     <a href="#endpoints">Endpoints</a>
@@ -168,7 +184,462 @@ You can switch the language used with the tabs at the top right (or from the nav
         <h1 id="authenticating-requests">Authenticating requests</h1>
 <p>This API is not authenticated.</p>
 
-        <h1 id="endpoints">Endpoints</h1>
+        <h1 id="campaign-management">Campaign Management</h1>
+
+    <p>API endpoints for managing campaign sending and statistics</p>
+
+                                <h2 id="campaign-management-POSTapi-campaigns--id--send">Send a campaign</h2>
+
+<p>
+</p>
+
+<p>Sends the campaign to all active subscribers in the associated newsletter.</p>
+
+<span id="example-requests-POSTapi-campaigns--id--send">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/campaigns/1/send" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/campaigns/1/send"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-campaigns--id--send">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: true,
+    &quot;message&quot;: &quot;Campaign sent successfully: 10 sent, 0 failed&quot;,
+    &quot;sent_count&quot;: 10,
+    &quot;failed_count&quot;: 0
+}</code>
+ </pre>
+            <blockquote>
+            <p>Example response (400):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;success&quot;: false,
+    &quot;message&quot;: &quot;This campaign has already been sent&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-campaigns--id--send" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-campaigns--id--send"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-campaigns--id--send"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-campaigns--id--send" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-campaigns--id--send">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-campaigns--id--send" data-method="POST"
+      data-path="api/campaigns/{id}/send"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-campaigns--id--send', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-campaigns--id--send"
+                    onclick="tryItOut('POSTapi-campaigns--id--send');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-campaigns--id--send"
+                    onclick="cancelTryOut('POSTapi-campaigns--id--send');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-campaigns--id--send"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/campaigns/{id}/send</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-campaigns--id--send"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-campaigns--id--send"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="POSTapi-campaigns--id--send"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the campaign to send. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                    <h2 id="campaign-management-POSTapi-campaigns--id--schedule">Schedule a campaign</h2>
+
+<p>
+</p>
+
+<p>Schedule a campaign for future sending.</p>
+
+<span id="example-requests-POSTapi-campaigns--id--schedule">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/api/campaigns/1/schedule" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"scheduled_at\": \"2023-05-15 10:00:00\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/campaigns/1/schedule"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "scheduled_at": "2023-05-15 10:00:00"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTapi-campaigns--id--schedule">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;message&quot;: &quot;Campaign scheduled successfully&quot;,
+    &quot;campaign&quot;: {
+        &quot;id&quot;: 1,
+        &quot;newsletter_id&quot;: 1,
+        &quot;name&quot;: &quot;Example Campaign&quot;,
+        &quot;subject&quot;: &quot;Important Announcement&quot;,
+        &quot;status&quot;: &quot;scheduled&quot;,
+        &quot;scheduled_at&quot;: &quot;2023-05-15T10:00:00.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2023-04-07T12:00:00.000000Z&quot;,
+        &quot;created_at&quot;: &quot;2023-04-07T12:00:00.000000Z&quot;
+    }
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-POSTapi-campaigns--id--schedule" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTapi-campaigns--id--schedule"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTapi-campaigns--id--schedule"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-POSTapi-campaigns--id--schedule" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTapi-campaigns--id--schedule">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-POSTapi-campaigns--id--schedule" data-method="POST"
+      data-path="api/campaigns/{id}/schedule"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-campaigns--id--schedule', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTapi-campaigns--id--schedule"
+                    onclick="tryItOut('POSTapi-campaigns--id--schedule');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTapi-campaigns--id--schedule"
+                    onclick="cancelTryOut('POSTapi-campaigns--id--schedule');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTapi-campaigns--id--schedule"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>api/campaigns/{id}/schedule</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="POSTapi-campaigns--id--schedule"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="POSTapi-campaigns--id--schedule"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="POSTapi-campaigns--id--schedule"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the campaign to schedule. Example: <code>1</code></p>
+            </div>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>scheduled_at</code></b>&nbsp;&nbsp;
+<small>datetime</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="scheduled_at"                data-endpoint="POSTapi-campaigns--id--schedule"
+               value="2023-05-15 10:00:00"
+               data-component="body">
+    <br>
+<p>The date and time to send the campaign. Example: <code>2023-05-15 10:00:00</code></p>
+        </div>
+        </form>
+
+                    <h2 id="campaign-management-GETapi-campaigns--id--stats">Get campaign statistics</h2>
+
+<p>
+</p>
+
+<p>Retrieve statistics for a specific campaign.</p>
+
+<span id="example-requests-GETapi-campaigns--id--stats">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/api/campaigns/1/stats" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/api/campaigns/1/stats"
+);
+
+const headers = {
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETapi-campaigns--id--stats">
+            <blockquote>
+            <p>Example response (200):</p>
+        </blockquote>
+                <pre>
+
+<code class="language-json" style="max-height: 300px;">{
+    &quot;campaign_id&quot;: 1,
+    &quot;campaign_name&quot;: &quot;Example Campaign&quot;,
+    &quot;sent_at&quot;: &quot;2023-04-07T12:00:00.000000Z&quot;,
+    &quot;total_subscribers&quot;: 100,
+    &quot;opened_count&quot;: 75,
+    &quot;open_rate&quot;: 75,
+    &quot;clicks_count&quot;: 25,
+    &quot;click_rate&quot;: 25,
+    &quot;recent_opens&quot;: [
+        {
+            &quot;id&quot;: 10,
+            &quot;subscriber_id&quot;: 20,
+            &quot;opened_at&quot;: &quot;2023-04-07T15:30:00.000000Z&quot;,
+            &quot;subscriber&quot;: {
+                &quot;id&quot;: 20,
+                &quot;email&quot;: &quot;example@example.com&quot;,
+                &quot;first_name&quot;: &quot;John&quot;,
+                &quot;last_name&quot;: &quot;Doe&quot;
+            }
+        }
+    ]
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETapi-campaigns--id--stats" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETapi-campaigns--id--stats"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETapi-campaigns--id--stats"
+      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
+</span>
+<span id="execution-error-GETapi-campaigns--id--stats" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETapi-campaigns--id--stats">
+
+Tip: Check that you&#039;re properly connected to the network.
+If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
+You can check the Dev Tools console for debugging information.</code></pre>
+</span>
+<form id="form-GETapi-campaigns--id--stats" data-method="GET"
+      data-path="api/campaigns/{id}/stats"
+      data-authed="0"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETapi-campaigns--id--stats', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETapi-campaigns--id--stats"
+                    onclick="tryItOut('GETapi-campaigns--id--stats');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETapi-campaigns--id--stats"
+                    onclick="cancelTryOut('GETapi-campaigns--id--stats');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETapi-campaigns--id--stats"
+                    data-initial-text="Send Request 💥"
+                    data-loading-text="⏱ Sending..."
+                    hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>api/campaigns/{id}/stats</code></b>
+        </p>
+                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Content-Type"                data-endpoint="GETapi-campaigns--id--stats"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                                <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
+&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="Accept"                data-endpoint="GETapi-campaigns--id--stats"
+               value="application/json"
+               data-component="header">
+    <br>
+<p>Example: <code>application/json</code></p>
+            </div>
+                        <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <div style="padding-left: 28px; clear: unset;">
+                <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="id"                data-endpoint="GETapi-campaigns--id--stats"
+               value="1"
+               data-component="url">
+    <br>
+<p>The ID of the campaign. Example: <code>1</code></p>
+            </div>
+                    </form>
+
+                <h1 id="endpoints">Endpoints</h1>
 
     
 
@@ -2587,7 +3058,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"n\",
     \"subject\": \"g\",
     \"content\": \"architecto\",
-    \"status\": \"sent\",
+    \"status\": \"draft\",
     \"scheduled_at\": \"2051-05-09\"
 }"
 </code></pre></div>
@@ -2608,7 +3079,7 @@ let body = {
     "name": "n",
     "subject": "g",
     "content": "architecto",
-    "status": "sent",
+    "status": "draft",
     "scheduled_at": "2051-05-09"
 };
 
@@ -2742,10 +3213,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="POSTapi-campaigns"
-               value="sent"
+               value="draft"
                data-component="body">
     <br>
-<p>Example: <code>sent</code></p>
+<p>Example: <code>draft</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>draft</code></li> <li><code>scheduled</code></li> <li><code>sent</code></li></ul>
         </div>
@@ -2918,7 +3389,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     \"name\": \"b\",
     \"subject\": \"n\",
     \"content\": \"architecto\",
-    \"status\": \"draft\",
+    \"status\": \"sent\",
     \"scheduled_at\": \"2051-05-09\"
 }"
 </code></pre></div>
@@ -2938,7 +3409,7 @@ let body = {
     "name": "b",
     "subject": "n",
     "content": "architecto",
-    "status": "draft",
+    "status": "sent",
     "scheduled_at": "2051-05-09"
 };
 
@@ -3088,10 +3559,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="PUTapi-campaigns--id-"
-               value="draft"
+               value="sent"
                data-component="body">
     <br>
-<p>Example: <code>draft</code></p>
+<p>Example: <code>sent</code></p>
 Must be one of:
 <ul style="list-style-type: square;"><li><code>draft</code></li> <li><code>scheduled</code></li> <li><code>sent</code></li></ul>
         </div>

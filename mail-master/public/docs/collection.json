@@ -10,11 +10,155 @@
     ],
     "info": {
         "name": "MailMaster API Documentation",
-        "_postman_id": "dc95dbab-d4e9-4b82-bf7b-ae6c96d124f0",
+        "_postman_id": "aa9ee6ab-99cf-4dcb-8d11-657e7089aa7c",
         "description": "API documentation for the MailMaster newsletter management system",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
+        {
+            "name": "Campaign Management",
+            "description": "\nAPI endpoints for managing campaign sending and statistics",
+            "item": [
+                {
+                    "name": "Send a campaign",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/campaigns\/:id\/send",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/campaigns\/:id\/send",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the campaign to send."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Sends the campaign to all active subscribers in the associated newsletter.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"success\": true,\n  \"message\": \"Campaign sent successfully: 10 sent, 0 failed\",\n  \"sent_count\": 10,\n  \"failed_count\": 0\n}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 400,
+                            "body": "{\n  \"success\": false,\n  \"message\": \"This campaign has already been sent\"\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Schedule a campaign",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/campaigns\/:id\/schedule",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/campaigns\/:id\/schedule",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the campaign to schedule."
+                                }
+                            ]
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"scheduled_at\":\"2023-05-15 10:00:00\"}"
+                        },
+                        "description": "Schedule a campaign for future sending.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"message\": \"Campaign scheduled successfully\",\n  \"campaign\": {\n    \"id\": 1,\n    \"newsletter_id\": 1,\n    \"name\": \"Example Campaign\",\n    \"subject\": \"Important Announcement\",\n    \"status\": \"scheduled\",\n    \"scheduled_at\": \"2023-05-15T10:00:00.000000Z\",\n    \"updated_at\": \"2023-04-07T12:00:00.000000Z\",\n    \"created_at\": \"2023-04-07T12:00:00.000000Z\"\n  }\n}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Get campaign statistics",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/campaigns\/:id\/stats",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/campaigns\/:id\/stats",
+                            "variable": [
+                                {
+                                    "id": "id",
+                                    "key": "id",
+                                    "value": "1",
+                                    "description": "The ID of the campaign."
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "Retrieve statistics for a specific campaign.",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\n  \"campaign_id\": 1,\n  \"campaign_name\": \"Example Campaign\",\n  \"sent_at\": \"2023-04-07T12:00:00.000000Z\",\n  \"total_subscribers\": 100,\n  \"opened_count\": 75,\n  \"open_rate\": 75,\n  \"clicks_count\": 25,\n  \"click_rate\": 25,\n  \"recent_opens\": [\n    {\n      \"id\": 10,\n      \"subscriber_id\": 20,\n      \"opened_at\": \"2023-04-07T15:30:00.000000Z\",\n      \"subscriber\": {\n        \"id\": 20,\n        \"email\": \"example@example.com\",\n        \"first_name\": \"John\",\n        \"last_name\": \"Doe\"\n      }\n    }\n  ]\n}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
         {
             "name": "Endpoints",
             "description": "",
@@ -716,7 +860,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"newsletter_id\":\"architecto\",\"name\":\"n\",\"subject\":\"g\",\"content\":\"architecto\",\"status\":\"sent\",\"scheduled_at\":\"2051-05-09\"}"
+                            "raw": "{\"newsletter_id\":\"architecto\",\"name\":\"n\",\"subject\":\"g\",\"content\":\"architecto\",\"status\":\"draft\",\"scheduled_at\":\"2051-05-09\"}"
                         },
                         "description": "",
                         "auth": {
@@ -811,7 +955,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"b\",\"subject\":\"n\",\"content\":\"architecto\",\"status\":\"draft\",\"scheduled_at\":\"2051-05-09\"}"
+                            "raw": "{\"name\":\"b\",\"subject\":\"n\",\"content\":\"architecto\",\"status\":\"sent\",\"scheduled_at\":\"2051-05-09\"}"
                         },
                         "description": "",
                         "auth": {

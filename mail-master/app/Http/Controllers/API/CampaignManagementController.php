@@ -9,6 +9,11 @@ use App\Models\Newsletter;
 use App\Services\EmailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+/**
+ * @group Campaign Management
+ *
+ * API endpoints for managing campaign sending and statistics
+ */
 
 class CampaignManagementController extends Controller
 {
@@ -19,8 +24,24 @@ class CampaignManagementController extends Controller
         $this->emailService = $emailService;
     }
 
-    /**
-     * Send a campaign to all subscribers.
+      /**
+     * Send a campaign
+     *
+     * Sends the campaign to all active subscribers in the associated newsletter.
+     *
+     * @urlParam id required The ID of the campaign to send. Example: 1
+     *
+     * @response 200 {
+     *   "success": true,
+     *   "message": "Campaign sent successfully: 10 sent, 0 failed",
+     *   "sent_count": 10,
+     *   "failed_count": 0
+     * }
+     *
+     * @response 400 {
+     *   "success": false,
+     *   "message": "This campaign has already been sent"
+     * }
      */
     public function sendCampaign(Request $request, $id)
     {
@@ -38,7 +59,26 @@ class CampaignManagementController extends Controller
     }
 
     /**
+     * Schedule a campaign
+     *
      * Schedule a campaign for future sending.
+     *
+     * @urlParam id required The ID of the campaign to schedule. Example: 1
+     * @bodyParam scheduled_at datetime required The date and time to send the campaign. Example: 2023-05-15 10:00:00
+     *
+     * @response 200 {
+     *   "message": "Campaign scheduled successfully",
+     *   "campaign": {
+     *     "id": 1,
+     *     "newsletter_id": 1,
+     *     "name": "Example Campaign",
+     *     "subject": "Important Announcement",
+     *     "status": "scheduled",
+     *     "scheduled_at": "2023-05-15T10:00:00.000000Z",
+     *     "updated_at": "2023-04-07T12:00:00.000000Z",
+     *     "created_at": "2023-04-07T12:00:00.000000Z"
+     *   }
+     * }
      */
     public function scheduleCampaign(Request $request, $id)
     {
@@ -76,7 +116,35 @@ class CampaignManagementController extends Controller
     }
 
     /**
-     * Get statistics for a campaign.
+     * Get campaign statistics
+     *
+     * Retrieve statistics for a specific campaign.
+     *
+     * @urlParam id required The ID of the campaign. Example: 1
+     *
+     * @response 200 {
+     *   "campaign_id": 1,
+     *   "campaign_name": "Example Campaign",
+     *   "sent_at": "2023-04-07T12:00:00.000000Z",
+     *   "total_subscribers": 100,
+     *   "opened_count": 75,
+     *   "open_rate": 75,
+     *   "clicks_count": 25,
+     *   "click_rate": 25,
+     *   "recent_opens": [
+     *     {
+     *       "id": 10,
+     *       "subscriber_id": 20,
+     *       "opened_at": "2023-04-07T15:30:00.000000Z",
+     *       "subscriber": {
+     *         "id": 20,
+     *         "email": "example@example.com",
+     *         "first_name": "John",
+     *         "last_name": "Doe"
+     *       }
+     *     }
+     *   ]
+     * }
      */
     public function getCampaignStats(Request $request, $id)
     {
