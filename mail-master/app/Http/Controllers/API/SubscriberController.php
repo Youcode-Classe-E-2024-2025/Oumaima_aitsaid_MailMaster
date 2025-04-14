@@ -29,7 +29,41 @@ class SubscriberController extends Controller
         return response()->json($subscribers);
     }
 
-    
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|unique:subscribers,email',
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'newsletter_ids' => 'nullable|array',
+            'newsletter_ids.*' => 'exists:newsletters,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $subscriber = Subscriber::create([
+            'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'status' => 'active',
+        ]);
+
+        // Attach subscriber to newsletters if provided
+        if ($request->has('newsletter_ids')) {
+            $newsletters = Newsletter::whereIn('id', $request->newsletter_ids)
+                ->where('user_id', $request->user()->id)
+                ->get();
+            
+            $subscriber->newsletters()->attach($newsletters->pluck('id'));
+        }
+
+        return response()->json([
+            'message' => 'Subscriber created successfully',
+            'subscriber' => $subscriber
+        ], 201);
+    }
 
    
 
