@@ -61,7 +61,28 @@ class SubscriberTest extends TestCase
         $this->assertTrue($subscriber->newsletters->contains($this->newsletter->id));
     }
 
-   
+    /** @test */
+    public function user_can_add_subscriber_to_newsletter()
+    {
+        $subscriber = Subscriber::factory()->create();
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->postJson('/api/subscribers/add-to-newsletter', [
+            'subscriber_id' => $subscriber->id,
+            'newsletter_id' => $this->newsletter->id,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => 'Subscriber added to newsletter successfully'
+            ]);
+
+        $this->assertDatabaseHas('newsletter_subscriber', [
+            'newsletter_id' => $this->newsletter->id,
+            'subscriber_id' => $subscriber->id,
+        ]);
+    }
 
    
 
