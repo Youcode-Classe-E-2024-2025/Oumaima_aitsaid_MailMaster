@@ -43,7 +43,14 @@ class NewsletterController extends Controller
         ], 201);
     }
 
-   
+    public function show(Request $request, $id)
+    {
+        $newsletter = Newsletter::where('user_id', $request->user()->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        return response()->json($newsletter);
+    }
 
  
 
