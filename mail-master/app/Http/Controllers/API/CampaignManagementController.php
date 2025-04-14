@@ -75,5 +75,45 @@ class CampaignManagementController extends Controller
         ]);
     }
 
-   
+    /**
+     * Get statistics for a campaign.
+     */
+    public function getCampaignStats(Request $request, $id)
+    {
+        // Get newsletters belonging to the user
+        $newsletterIds = Newsletter::where('user_id', $request->user()->id)
+            ->pluck('id');
+        
+        $campaign = Campaign::whereIn('newsletter_id', $newsletterIds)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        // Calculate statistics
+        $totalSubscribers = $campaign->newsletter->subscribers()->where('status', 'active')->count();
+        $openedCount = $campaign->stats()->whereNotNull('opened_at')->count();
+        $openRate = $totalSubscribers > 0 ? round(($openedCount / $totalSubscribers) * 100, 2) : 0;
+        
+        $clicksCount = $campaign->stats()->sum('click_count');
+        $clickRate = $totalSubscribers > 0 ? round(($clicksCount / $totalSubscribers) * 100, 2) : 0;
+
+        // Get most recent opens
+        $recentOpens = $campaign->stats()
+            ->whereNotNull('opened_at')
+            ->with('subscriber:id,email,first_name,last_name')
+            ->orderBy('opened_at', 'desc')
+            ->take(10)
+            ->get(['id', 'subscriber_id', 'opened_at']);
+
+        return response()->json([
+            'campaign_id' => $campaign->id,
+            'campaign_name' => $campaign->name,
+            'sent_at' => $campaign->sent_at,
+            'total_subscribers' => $totalSubscribers,
+            'opened_count' => $openedCount,
+            'open_rate' => $openRate,
+            'clicks_count' => $clicksCount,
+            'click_rate' => $clickRate,
+            'recent_opens' => $recentOpens,
+        ]);
+    }
 }
