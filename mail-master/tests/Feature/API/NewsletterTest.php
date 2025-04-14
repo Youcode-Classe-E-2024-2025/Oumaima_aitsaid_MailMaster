@@ -48,7 +48,28 @@ class NewsletterTest extends TestCase
         ]);
     }
 
-   
+    /** @test */
+    public function user_can_view_their_newsletters()
+    {
+        // Create some newsletters for the user
+        Newsletter::factory()->count(3)->create([
+            'user_id' => $this->user->id
+        ]);
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $this->token,
+        ])->getJson('/api/newsletters');
+
+        $response->assertStatus(200)
+            ->assertJsonStructure([
+                'data' => [
+                    '*' => ['id', 'user_id', 'name', 'description', 'created_at', 'updated_at']
+                ],
+                'links',
+                'meta'
+            ])
+            ->assertJsonCount(3, 'data');
+    }
 
    
 
