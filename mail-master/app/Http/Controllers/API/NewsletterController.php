@@ -52,7 +52,31 @@ class NewsletterController extends Controller
         return response()->json($newsletter);
     }
 
- 
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
+        $newsletter = Newsletter::where('user_id', $request->user()->id)
+            ->where('id', $id)
+            ->firstOrFail();
+
+        $newsletter->update([
+            'name' => $request->name,
+            'description' => $request->description,
+        ]);
+
+        return response()->json([
+            'message' => 'Newsletter updated successfully',
+            'newsletter' => $newsletter
+        ]);
+    }
 
   
 }
